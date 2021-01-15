@@ -1,0 +1,2 @@
+# avaamo-frontend-akash
+nuxtjs

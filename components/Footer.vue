@@ -13,27 +13,34 @@
 			<div class="footer-left">
 
 				<p class="footer-links">
-					<a class="link-1" href="#">Home</a>
+          <NuxtLink class="link-1" to="/">Home</NuxtLink>
+				
+ <NuxtLink class="link-1" to="/add">Add</NuxtLink>
+				
 
-					<a href="#">Blog</a>
+					<a href="#">lorem</a>
 
-					<a href="#">Pricing</a>
+					<a href="#">lorem</a>
 
-					<a href="#">About</a>
+					<a href="#">lorem</a>
 
-					<a href="#">Faq</a>
-
-					<a href="#">Contact</a>
+					<a href="#">lorem</a>
 				</p>
 
-				<p>Company Name &copy; 2015</p>
+				<p>Avaamo&copy;  {{currentDate.getFullYear()}}</p>
 			</div>
 
 		</footer>
 </template>
 <script>
 export default {
-    name : 'Footer'
+    name : 'Footer',
+    data(){
+     return {
+        currentDate: new Date,
+        }
+ }
+
 }
 </script>
 <style scoped>

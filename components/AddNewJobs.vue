@@ -11,20 +11,41 @@
               <b-col cols="4">
                 <div style="">
                   <p>Method</p>
-                  <b-form-select
-                    v-model="selected"
-                    :options="options"
-                  ></b-form-select>
+                  <ValidationProvider
+                    name="Method"
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <b-form-select
+                      v-model="form.request.method"
+                      :options="options"
+                    ></b-form-select>
+                    <span class="input-invalid-message">
+                      {{ errors[0] }}
+                    </span>
+                  </ValidationProvider>
                 </div>
               </b-col>
               <b-col cols="8">
                 <div>
                   <p>EndPoint</p>
                   <div>
-                    <b-form-input
-                      v-model="text"
-                      placeholder="https://www.google.com"
-                    ></b-form-input>
+                    <ValidationProvider
+                      name="Method"
+                      v-slot="{ errors }"
+                      :rules="{
+                        required,
+                        url,
+                      }"
+                    >
+                      <b-form-input
+                        v-model="form.request.url"
+                        placeholder="https://www.google.com"
+                      ></b-form-input>
+                      <span class="input-invalid-message">
+                        {{ errors[0] }}
+                      </span>
+                    </ValidationProvider>
                   </div>
                 </div>
               </b-col>
@@ -34,7 +55,7 @@
                 <div style="">
                   <p>Frequency</p>
                   <b-form-select
-                    v-model="selectedFreq"
+                    v-model="form.request_interval_seconds"
                     :options="optionsFreq"
                   ></b-form-select>
                 </div>
@@ -44,7 +65,7 @@
                   <p>Location</p>
                   <div>
                     <b-form-select
-                      v-model="selectedLoc"
+                      v-model="form.timezone"
                       :options="optionsLoc"
                     ></b-form-select>
                   </div>
@@ -66,31 +87,37 @@
               <b-col cols="6">
                 <div style="">
                   <p>Assertions</p>
-                  <b-form-select
-                    v-model="selectedAssertions"
+                  <b-form-input
+                    v-model="form.selectedAssertions"
                     disabled
-                    :options="optionsAssertions"
-                  ></b-form-select>
+                  ></b-form-input>
                 </div>
               </b-col>
               <b-col cols="2">
                 <div style="padding-top: 40px">
-                  <b-form-select
-                    v-model="selectedAssertionsSecond"
+                  <b-form-input
+                    v-model="form.selectedAssertionsSecond"
                     disabled
-                    :options="optionsAssertionsSecond"
-                  ></b-form-select>
+                  ></b-form-input>
                 </div>
               </b-col>
               <b-col cols="4">
                 <div>
                   <p>Value</p>
                   <div>
-                    <b-form-input
-                      v-model="text"
-                      disabled
-                      placeholder="200"
-                    ></b-form-input>
+                    <ValidationProvider
+                      name="Status code"
+                      v-slot="{ errors }"
+                      rules="required"
+                    >
+                      <b-form-input
+                        v-model="form.Value"
+                        placeholder="200"
+                      ></b-form-input>
+                      <span class="input-invalid-message">
+                        {{ errors[0] }}
+                      </span>
+                    </ValidationProvider>
                   </div>
                 </div>
               </b-col>
@@ -123,18 +150,35 @@
                   </div>
                   <div v-if="!isHidden">
                     <p>Email addresses</p>
-                    <b-form-select
-                      v-model="selectedEmail"
-                      :options="optionsEmail"
-                    ></b-form-select>
+                    <ValidationProvider
+                      name="Status code"
+                      v-slot="{ errors }"
+                      rules="email"
+                    >
+                      <b-form-input
+                        v-model="form.notifications.emails"
+                        placeholder="example@gmail.com"
+                      ></b-form-input>
+                      <span class="input-invalid-message">
+                        {{ errors[0] }}
+                      </span>
+                    </ValidationProvider>
                   </div>
                   <div v-else>
                     <p>Phone numbers</p>
-                    <b-form-select
-                      v-if="isHidden"
-                      v-model="selectedPhone"
-                      :options="optionsPhone"
-                    ></b-form-select>
+                    <ValidationProvider
+                      name="phone number"
+                      v-slot="{ errors }"
+                      rules="integer"
+                    >
+                      <b-form-input
+                        v-if="isHidden"
+                        v-model="form.notifications.phones"
+                      ></b-form-input>
+                      <span class="input-invalid-message">
+                        {{ errors[0] }}
+                      </span>
+                    </ValidationProvider>
                   </div>
                 </div>
               </b-col>
@@ -154,14 +198,14 @@
               <b-col>
                 <b-form-group v-slot="{ ariaDescribedby }">
                   <b-form-radio
-                    v-model="selectedFailure"
+                    v-model="form.alertFirst"
                     :aria-describedby="ariaDescribedby"
                     name="some-radios"
                     value="A"
                     >Send an alert any time there is a problem</b-form-radio
                   >
                   <b-form-radio
-                    v-model="selected"
+                    v-model="form.alertSecond"
                     :aria-describedby="ariaDescribedby"
                     name="some-radios"
                     value="B"
@@ -176,24 +220,40 @@
       </b-col>
     </b-row>
     &nbsp;&nbsp;
-        <b-row class="text-center">
+    <b-row class="text-center">
       <b-col cols="6">
-        <b-card
-        sub-title="Unique name"
-          style="text-align: left;"
-        >
+        <b-card sub-title="Unique name" style="text-align: left">
           <b-card-text>
             <b-row>
               <b-col>
                 <div id="app">
- <b-form-input
-                      v-model="name"
+                  <ValidationProvider
+                    name="name"
+                    v-slot="{ errors }"
+                    rules="required"
+                  >
+                    <b-form-input
+                      v-model="form.name"
                       placeholder="Update content from endpoint"
                     ></b-form-input>
-
-                   <div style="padding-top:10px">
-                        <b-button v-on:click="newJob()" squared style="background-color:coral;color:white; padding-left:25px;padding-right:25px;text-decoration:none">Button</b-button>
-                   </div>
+                    <span class="input-invalid-message">
+                      {{ errors[0] }}
+                    </span>
+                  </ValidationProvider>
+                  <div style="padding-top: 10px">
+                    <b-button
+                      v-on:click="newJob()"
+                      squared
+                      style="
+                        background-color: coral;
+                        color: white;
+                        padding-left: 25px;
+                        padding-right: 25px;
+                        text-decoration: none;
+                      "
+                      >Save</b-button
+                    >
+                  </div>
                 </div>
               </b-col>
             </b-row>
@@ -201,36 +261,84 @@
         </b-card>
       </b-col>
     </b-row>
-     &nbsp;&nbsp;
+    <div v-if="isSuccess">
+      <b-alert :max="dismissSecs" show variant="success"
+        ><a href="#" class="alert-link">{{ message }} </a>
+        <a id="close_btn" @click="goBack" href="">
+          <img
+            v-b-tooltip.hover
+            title="go back to home page "
+            id="close_btn_img"
+            src="http://clipart-library.com/images_k/x-png-transparent/x-png-transparent-11.png"
+            alt=""
+          />
+        </a>
+      </b-alert>
+    </div>
+    <div v-if="isError">
+      <b-alert :max="dismissSecs" show variant="error"
+        ><a href="#" class="alert-link">{{ message }}</a>
+        <a id="close_btn" @click="goBack" href="">
+          <img
+            v-b-tooltip.hover
+            title="go back to home page "
+            id="close_btn_img"
+            src="http://clipart-library.com/images_k/x-png-transparent/x-png-transparent-11.png"
+            alt=""
+          />
+        </a>
+      </b-alert>
+    </div>
+    &nbsp;&nbsp;
   </div>
 </template>
 <script>
+import { ValidationProvider } from "vee-validate";
+import axios from "axios";
+import moment from "moment";
+
 export default {
   name: "AddNewJobs",
+  components: {
+    ValidationProvider,
+  },
   data() {
     return {
+      url: "http://localhost:9000/api/jobs/",
+      isSuccess: false,
+      isError: false,
+      message: "",
+      form: {
+        selectedAssertions: "Response code",
+        selectedAssertionsSecond: "=",
+        alertFirst: "",
+        alertSecond: "",
+        status: "",
+        name: "",
+        timezone: "UTC",
+        request: {
+          url: "",
+          method: "GET",
+        },
+        notifications: {
+          phones: "",
+          emails: "",
+        },
+        request_interval_seconds: "60",
+        value: "200",
+      },
       isHidden: false,
-      selected: "GET",
-      selectedFreq: "1",
-      selectedLoc: "1",
-      selectedAssertions: "1",
-      selectedAssertionsSecond: "1",
-      selectedEmail: "1",
-      selectedPhone: "1",
-      selectedFailure: "A",
-      text: "",
-      name : "",
       options: [
-        { value: 'GET', text: "GET" },
-        { value: 'POST', text: "POST" },
+        { value: "GET", text: "GET" },
+        { value: "POST", text: "POST" },
       ],
       optionsFreq: [
-        { value: 1, text: "60 seconds" },
-        { value: 2, text: "600 seconds" },
+        { value: "60", text: "60 seconds" },
+        { value: "600", text: "600 seconds" },
       ],
       optionsLoc: [
-        { value: 1, text: "Global(default)" },
-        { value: 2, text: "Indian Standard Time" },
+        { value: "UTC", text: "Global(default)" },
+        { value: "IST", text: "Indian Standard Time" },
       ],
       optionsAssertions: [{ value: 1, text: "Response Code" }],
       optionsAssertionsSecond: [{ value: 1, text: "=" }],
@@ -238,20 +346,52 @@ export default {
       optionsPhone: [{ value: 1, text: "9684251779" }],
     };
   },
-  methods : {
-      newJob () {
-         var obj = {
-    key1: this.selected,
-};
-         
-         console.log(data);
-
+  methods: {
+    goBack() {
+      return this.$router.go(-1);
+    },
+    async newJob() {
+      let data = {};
+      if (this.form.alertFirst.length != null) data["tolerated_failures"] = 1;
+      if (this.form.alertFirst.length == null) data["tolerated_failures"] = 10;
+      data.enable = true;
+      data.status = "status Healthy ";
+      data.name = this.form.name;
+      data.notifications = this.form.notifications;
+      data.timezone = this.form.timezone;
+      data.request = this.form.request;
+      data.request_interval_seconds = parseInt(
+        this.form.request_interval_seconds
+      );
+      data.created = moment().format();
+      const config = { headers: { "Content-Type": "application/json" } };
+      let resp = await axios.post(this.url, data, config);
+      if (resp.status == 200) {
+        var arra1 = this.message;
+        this.message = `created new job ${data.name}`;
+        this.isSuccess = true;
+        //  return this.$router.go(-1);
+      } else {
+        var arra1 = this.message;
+        this.message = resp;
+        this.isError = true;
+        //  return this.$router.go(-1);
       }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
 .card-body {
   padding-bottom: 35px;
+}
+.input-invalid-message {
+  color: red;
+}
+
+#close_btn_img {
+  width: 5%;
+  margin-left: 5px;
+  float: right;
 }
 </style>

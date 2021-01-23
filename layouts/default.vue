@@ -9,32 +9,25 @@
 <script>
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-
+import { mapMutations } from 'vuex'
 export default {
   components : {
     Navbar,
-    Footer
+    Footer,
+  },
+  computed : {
+      ...mapMutations([
+      'SOCKET_CONNECT', // map `this.increment()` to `this.$store.commit('increment')`
+
+      // `mapMutations` also supports payloads:
+      'SOCKET_MESSAGECHANNEL' // map `this.incrementBy(amount)` to `this.$store.commit('incrementBy', amount)`
+    ]),
   }
 }
 </script>
 <style>
 html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+   font-family: "Oswald";
 }
 
 *,

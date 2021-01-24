@@ -2,10 +2,8 @@
   <b-container fluid="lg" class="container">
     <b-jumbotron style="min-width: 80%; max-width: 80%">
       <div v-if="success">
-        <b-alert :max="dismissSecs" show variant="success"
-          ><a href="#" class="alert-link"
-            >{{ message }}Successfully ran</a
-          ></b-alert
+        <b-alert max="3" show variant="success"
+          >{{ message }} Successfully ran</b-alert
         >
       </div>
       <h3 class="title">SCHEDULER</h3>
@@ -173,6 +171,8 @@ export default {
   },
   // calling socket when page is mounted
   mounted() {
+    /* TODO keep all socket in store mutation
+     */
     this.socket = io("http://localhost:9000");
     this.socket.on("event", (job) => {
       this.data = job;
@@ -185,6 +185,8 @@ export default {
       this.data = job;
     });
     this.socket.on("sendGoodStatus", (message) => {
+      console.log(message);
+      this.success = true;
       this.message = message;
     });
     this.socket.on("deleteJob", (job) => {
@@ -216,6 +218,8 @@ export default {
       this.id = id;
       this.modalDeleteOpen = true;
     },
+    /* TODO keep this function in store
+     */
     // update the document when pause or play is button is clicked
     async pauseAndplay(id, item) {
       item["updated"] = moment().format();
@@ -228,8 +232,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
+  font-family: "Oswald";
   margin: 0 auto;
   min-height: 80vh;
   display: flex;

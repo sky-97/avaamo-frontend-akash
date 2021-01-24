@@ -17,7 +17,7 @@
                       padding-right: 25px;
                       text-decoration: none;
                     "
-                    >Save</b-button
+                    >Delete</b-button
                   >
 
                   <b-button
@@ -37,14 +37,14 @@
       </div>
     </div>
     <div v-if="showSuccess">
-      <b-alert show variant="success"
+      <b-alert show   fade variant="success" style=""
         ><a href="#" class="alert-link">Successfully deleted the job</a>
         <a id="close_btn" @click="goBack" href="">
           <img
             v-b-tooltip.hover
             title="go back to home page "
-            id="close_btn_img"
-            src="http://clipart-library.com/images_k/x-png-transparent/x-png-transparent-11.png"
+            id="close_btn_img_delete"
+             src="~/assets/close.png"
             alt=""
           /> </a
       ></b-alert>
@@ -73,10 +73,11 @@ export default {
   methods: {
     async deleteJob(id) {
       const config = { headers: { "Content-Type": "application/json" } };
-      let resp = await axios.delete(this.url + `/api/jobs/${id}`, config);
-      if (resp.status == 200) {
-        return (this.showSuccess = true);
-      }
+      let resp = await axios.delete(this.url + `/api/jobs/${id}`, config)
+      .then((res) => {
+         this.showSuccess = true
+          console.log(res);
+        })
     },
 
     goBack() {
@@ -86,11 +87,20 @@ export default {
 };
 </script>
 
-<style  >
+<style scoped>
 .modal {
+   font-family: "Oswald";
   overflow-y: auto;
   background: rgba(0, 0, 0, 0.7);
   display: block;
+  
+}
+
+.modal-dialog  {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .modal-content {
@@ -100,7 +110,7 @@ export default {
   text-transform: none;
 }
 
-#close_btn_img {
+#close_btn_img_delete {
   width: 5%;
   float: right;
 }

@@ -18,12 +18,16 @@ export default {
 </script>
 <style scoped>
 .fluid-container {
+   font-family: "Oswald";
   background-color: #33383b !important;
 
   padding: 20px;
 }
 
 .text-center {
+  background-color: #33383b !important;
+  color : white
+
 }
 </style>
 

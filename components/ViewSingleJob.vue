@@ -5,12 +5,10 @@
         <div class="modal-body">
           <div class="modal-text">
             <div>
-              <a id="close_btn" @click.stop="$emit('close')" href="">
-                  <img id="close_btn_img" src="https://p.kindpng.com/picc/s/144-1441947_wrong-socket-io-icon-svg-hd-png-download.png" alt="">
+             
+               <a id="close_btn" @click.stop="$emit('close')" href="">
+                  <img id="close_btn_img"  src="~/assets/close.png" alt="">
               </a>
-              <div>
-              
-                </div>
               <b-jumbotron header="Job description" header-level="5">
                 
                 <b-container fluid v-if="!edit">
@@ -118,7 +116,8 @@ EditJob
 
 
 #close_btn_img{
-  width: 5%;
+  margin-top:  50px;
+  width: 15%;
    float:  right;
 }
 

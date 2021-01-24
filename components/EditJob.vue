@@ -181,7 +181,14 @@
         </b-row>
         <div id="button">
           <b-button
-            variant="outline-primary"
+          squared
+           style="
+                      background-color: coral;
+                      color: white;
+                      padding-left: 25px;
+                      padding-right: 25px;
+                      text-decoration: none;
+                    "
             @click="saveForm(data.component)"
             :disabled="invalid"
           >
@@ -192,7 +199,7 @@
     </b-card>
     <div v-if="showSuccess">
       <b-alert show variant="success"
-        ><a href="#" class="alert-link">Successfully updated</a>
+        >Successfully updated
         <a id="close_btn" @click="goBack" href="">
           <img
             v-b-tooltip.hover
@@ -232,6 +239,8 @@ export default {
     goBack() {
       return this.$router.go(-1);
     },
+     /* TODO keep this function in store
+    */
     async saveForm(data) {
       data["updated"] = moment().format();
       let item = data;
@@ -251,9 +260,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
-  font-family: "Montserrat", Helvetica, Arial, sans-serif;
+  font-family: "Oswald";
 }
 .input-invalid-message {
   color: red;

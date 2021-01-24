@@ -263,27 +263,27 @@
     </b-row>
     <div v-if="isSuccess">
       <b-alert :max="dismissSecs" show variant="success"
-        ><a href="#" class="alert-link">{{ message }} </a>
+        >{{ message }}
         <a id="close_btn" @click="goBack" href="">
           <img
             v-b-tooltip.hover
             title="go back to home page "
             id="close_btn_img"
-            src="http://clipart-library.com/images_k/x-png-transparent/x-png-transparent-11.png"
+            src="~/assets/close.png"
             alt=""
           />
         </a>
       </b-alert>
     </div>
     <div v-if="isError">
-      <b-alert :max="dismissSecs" show variant="error"
-        ><a href="#" class="alert-link">{{ message }}</a>
+      <b-alert :max="dismissSecs" show variant="danger"
+        >{{ message }}
         <a id="close_btn" @click="goBack" href="">
           <img
             v-b-tooltip.hover
             title="go back to home page "
             id="close_btn_img"
-            src="http://clipart-library.com/images_k/x-png-transparent/x-png-transparent-11.png"
+            src="~/assets/close.png"
             alt=""
           />
         </a>
@@ -304,6 +304,7 @@ export default {
   },
   data() {
     return {
+            dismissSecs: 10,
       url: "http://localhost:9000/api/jobs/",
       isSuccess: false,
       isError: false,
@@ -348,7 +349,7 @@ export default {
   },
   methods: {
     goBack() {
-      return this.$router.go(-1);
+      return this.$router.back()
     },
     async newJob() {
       let data = {};
@@ -365,24 +366,30 @@ export default {
       );
       data.created = moment().format();
       const config = { headers: { "Content-Type": "application/json" } };
-      let resp = await axios.post(this.url, data, config);
-      if (resp.status == 200) {
-        var arra1 = this.message;
-        this.message = `created new job ${data.name}`;
-        this.isSuccess = true;
-        //  return this.$router.go(-1);
-      } else {
-        var arra1 = this.message;
-        this.message = resp;
-        this.isError = true;
-        //  return this.$router.go(-1);
-      }
+      let resp = await axios
+        .post(this.url, data, config)
+        .then((res) => {
+          this.message = `created new job ${data.name}`;
+          console.log(res);
+          this.isSuccess = true;
+        })
+        .catch(({ response }) => {
+          console.log(response);
+          if (response.status == 400) {
+            this.message = "name already taken";
+          } else {
+            this.message = response.statusText;
+          }
+
+          this.isError = true;
+        });
     },
   },
 };
 </script>
 <style scoped>
 .card-body {
+   font-family: "Oswald";
   padding-bottom: 35px;
 }
 .input-invalid-message {

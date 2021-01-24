@@ -100,10 +100,6 @@ In this page user can Create a New job
 
 <img src="assets\github\AddPage.jpg">
 
-if adding job is success , success notification is opened
+if adding job is success , success notification is opened and if its not the we show red cross mark in fe to show that particular job didnt run succesfully
 
 
-## Improvement needed
-<input type="checkbox"  />  keeping all api request and socket emit in ```store/index.js```
-
-<input type="checkbox"  />  changes   in ui ```view job ```

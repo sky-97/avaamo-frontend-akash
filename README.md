@@ -89,7 +89,7 @@ user can also see more details about the particular job , when they click on the
 
 
 * Delete a Job
-<img src="assets\github\DeleteJob.jpg">
+<img src="assets\github\delete.jpg">
 
 
 

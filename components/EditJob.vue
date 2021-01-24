@@ -204,7 +204,7 @@
           <img
             v-b-tooltip.hover
             title="go back to home page "
-            id="close_btn_img"
+            id="close_btn_img_edit"
             src="http://clipart-library.com/images_k/x-png-transparent/x-png-transparent-11.png"
             alt=""
           /> </a
@@ -270,7 +270,7 @@ export default {
 #button {
   padding-top: 20px;
 }
-#close_btn_img {
+#close_btn_img_edit {
   width: 5%;
   margin-left: 5px;
   float: right;

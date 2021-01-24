@@ -2,7 +2,7 @@
   <b-container fluid="lg" class="container">
     <b-jumbotron style="min-width: 80%; max-width: 80%">
       <div v-if="success">
-        <b-alert max="3" show variant="success"
+        <b-alert :max="dismissSecs" show variant="success"
           >{{ message }} Successfully ran</b-alert
         >
       </div>
@@ -58,7 +58,7 @@
             </div>
           </b-col>
           <b-col style="padding-top: 20px">
-            <div style="padding-top: 20px">
+            <div>
               <span v-if="item.updated">
                 {{ moment(item.updated).fromNow(true) }}
               </span>
@@ -164,7 +164,7 @@ export default {
       edit: false,
       message: "",
       success: false,
-      dismissSecs: 10,
+      dismissSecs: 3,
       modalDeleteOpen: false,
       id: "",
     };
@@ -176,13 +176,25 @@ export default {
     this.socket = io("http://localhost:9000");
     this.socket.on("event", (job) => {
       this.data = job;
+      this.data.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        console.log(`i am here a`, a);
+        return new Date(b.updated) - new Date(a.updated);
+      });
     });
 
     this.socket.on("newJob", (job) => {
       this.data.push(job);
+      this.data.sort(function (a, b) {
+        return new Date(b.updated) - new Date(a.updated);
+      });
     });
     this.socket.on("updateJob", (job) => {
       this.data = job;
+      this.data.sort(function (a, b) {
+        return new Date(b.updated) - new Date(a.updated);
+      });
     });
     this.socket.on("sendGoodStatus", (message) => {
       console.log(message);
@@ -191,6 +203,9 @@ export default {
     });
     this.socket.on("deleteJob", (job) => {
       this.data = job;
+      this.data.sort(function (a, b) {
+        return new Date(b.updated) - new Date(a.updated);
+      });
     });
   },
 
@@ -226,7 +241,16 @@ export default {
       item["enable"] = !item.enable;
       let data = item;
       const config = { headers: { "Content-Type": "application/json" } };
-      let resp = await axios.put(this.url + `/api/jobs/${id}`, data, config);
+      let resp = await axios
+        .put(this.url + `/api/jobs/${id}`, data, config)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(({ response }) => {
+          console.log(response);
+
+          this.isError = true;
+        });
     },
   },
 };

@@ -264,30 +264,10 @@
     <div v-if="isSuccess">
       <b-alert :max="dismissSecs" show variant="success"
         >{{ message }}
-        <a id="close_btn" @click="goBack" href="">
-          <img
-            v-b-tooltip.hover
-            title="go back to home page "
-            id="close_btn_img"
-            src="~/assets/close.png"
-            alt=""
-          />
-        </a>
       </b-alert>
     </div>
     <div v-if="isError">
-      <b-alert :max="dismissSecs" show variant="danger"
-        >{{ message }}
-        <a id="close_btn" @click="goBack" href="">
-          <img
-            v-b-tooltip.hover
-            title="go back to home page "
-            id="close_btn_img"
-            src="~/assets/close.png"
-            alt=""
-          />
-        </a>
-      </b-alert>
+      <b-alert :max="dismissSecs" show variant="danger">{{ message }} </b-alert>
     </div>
     &nbsp;&nbsp;
   </div>
@@ -304,7 +284,7 @@ export default {
   },
   data() {
     return {
-            dismissSecs: 10,
+      dismissSecs: 10,
       url: "http://localhost:9000/api/jobs/",
       isSuccess: false,
       isError: false,
@@ -349,7 +329,7 @@ export default {
   },
   methods: {
     goBack() {
-      return this.$router.back()
+      return this.$router.back();
     },
     async newJob() {
       let data = {};
@@ -389,14 +369,14 @@ export default {
 </script>
 <style scoped>
 .card-body {
-   font-family: "Oswald";
+  font-family: "Oswald";
   padding-bottom: 35px;
 }
 .input-invalid-message {
   color: red;
 }
 
-#close_btn_img {
+#close_btn_img_add {
   width: 5%;
   margin-left: 5px;
   float: right;

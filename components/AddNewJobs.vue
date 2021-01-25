@@ -332,15 +332,26 @@ export default {
       return this.$router.back();
     },
     async newJob() {
-      let data = {};
+      let data = {
+        notifications: {
+          phones: [],
+          emails: [],
+        },
+      };
       if (this.form.alertFirst.length != null) data["tolerated_failures"] = 1;
       if (this.form.alertFirst.length == null) data["tolerated_failures"] = 10;
       data.enable = true;
       data.status = "status Healthy ";
       data.name = this.form.name;
-      data.notifications = this.form.notifications;
-      data.timezone = this.form.timezone;
       data.request = this.form.request;
+      data.timezone = this.form.timezone;
+      data.notifications.emails = data.notifications.emails.push(
+        this.form.notifications.emails
+      );
+      data.notifications.phones = data.notifications.phones.push(
+        this.form.notifications.phones
+      );
+
       data.request_interval_seconds = parseInt(
         this.form.request_interval_seconds
       );

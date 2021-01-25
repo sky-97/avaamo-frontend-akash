@@ -1,11 +1,9 @@
 <template>
   <b-container fluid="lg" class="container">
     <b-jumbotron style="min-width: 80%; max-width: 80%">
-      <div v-if="success">
-        <b-alert :max="dismissSecs" show variant="success"
+       <b-alert   v-if="success" :max="dismissSecs" show variant="success"
           >{{ message }} Successfully ran</b-alert
         >
-      </div>
       <h3 class="title">SCHEDULER</h3>
 
       <!-- <hr class="my-4"> -->
